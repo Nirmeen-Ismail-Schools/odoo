@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<odoo>
+<menuitem id="ashtar-sales_menu_root" name="Ashtar Sales">
+    <menuitem id="ashtar_sales_leads_menu" name="Leads">
+        <menuitem id="ashtar-sales_lead_menu_action" action="ashtar_lead_action"/>
+        <menuitem id="ashtar-sales_hot_lead_menu_action" action="ashtar_hot_lead_action"/>
+        <menuitem id="ashtar-sales_warm_lead_menu_action" action="ashtar_warm_lead_action"/>
+        <menuitem id="ashtar-sales_cold_lead_menu_action" action="ashtar_cold_lead_action"/>
+    </menuitem>
+    <menuitem id="ashtar_sales_actions_menu" name="Actions">
+        <menuitem id="ashtar-sales_lead_my_active_actions_action" action="ashtar_lead_my_active_actions_action"/>
+        <menuitem id="ashtar-ashtar_lead_my_actions_overdue_action" action="ashtar_lead_my_actions_due_action"/>
+        <menuitem id="ashtar-sales_lead_actions_performers_action" action="ashtar_lead_actions_performers_action" groups="base.user_admin,ashtar-sales.ashtar_group_sales_manager,ashtar-sales.ashtar_group_city_manager"/>
+        <menuitem id="ashtar-sales_lead_actions_due_action" action="ashtar_lead_actions_due_action" groups="base.user_admin,ashtar-sales.ashtar_group_sales_manager,ashtar-sales.ashtar_group_city_manager"/>
+    </menuitem>
+    <menuitem id="ashtar_sales_city_menu" name="Cities" action="ashtar_city_action" groups="base.user_admin,ashtar-sales.ashtar_group_sales_manager">
+    </menuitem>
+</menuitem>
+</odoo>

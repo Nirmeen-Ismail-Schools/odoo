@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<odoo>
+<record id="ashtar_lead_level_view_form" model="ir.ui.view">
+    <field name="name">ashtar.lead.level.form</field>
+    <field name="model">ashtar.lead.level</field>
+    <field name="arch" type="xml">
+        <form string="Lost Reason">
+            <sheet>
+                <group>
+                    <div class="oe_title">
+                        <h1 class="mb32">
+                            <field name="name" class="mb16"/>
+                        </h1>
+                    </div>
+                    <br/>
+                    <group>
+                        <field name="active"/>
+                    </group>
+                </group>
+            </sheet>
+        </form>
+    </field>
+</record>
+
+
+</odoo>

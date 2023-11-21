@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="ashtar_group_salesman" model="res.groups">
+        <field name="name">Salesman</field>
+        <field name="category_id" ref="base.module_category_ashtar_sales"/>
+    </record>
+    <record id="salesman_lead_access" model="ir.rule">
+        <field name="name">Salesman only sees his assigned leads</field>
+        <field name="model_id" ref="model_ashtar_lead"/>
+        <field name="perm_read" eval="True"/>
+        <field name="groups" eval="[Command.link(ref('ashtar_group_salesman'))]"/>
+        <field name="domain_force">[
+            ('lead_owner', '=', user.id)
+        ]</field>
+    </record>
+    <record id="salesman_actions_access" model="ir.rule">
+        <field name="name">Salesman only sees his assigned actions</field>
+        <field name="model_id" ref="model_ashtar_lead_action"/>
+        <field name="perm_read" eval="True"/>
+        <field name="groups" eval="[Command.link(ref('ashtar_group_salesman'))]"/>
+        <field name="domain_force">[
+            '|', ('assignee', '=', user.id), ('create_uid', '=', user.id)
+        ]</field>
+    </record>
+    <record id="ashtar_group_city_manager" model="res.groups">
+        <field name="name">City Manager</field>
+        <field name="category_id" ref="base.module_category_ashtar_sales"/>
+    </record>
+    <record id="city_manager_lead_access" model="ir.rule">
+        <field name="name">City Manager only sees his city's leads</field>
+        <field name="model_id" ref="model_ashtar_lead"/>
+        <field name="perm_read" eval="True"/>
+        <field name="groups" eval="[Command.link(ref('ashtar_group_city_manager'))]"/>
+        <field name="domain_force">[
+            ('city_manager_id', '=', user.id)
+        ]</field>
+    </record>
+    <record id="city_manager_actions_access" model="ir.rule">
+        <field name="name">City Manager only sees actions assigned to his city's leads</field>
+        <field name="model_id" ref="model_ashtar_lead_action"/>
+        <field name="perm_read" eval="True"/>
+        <field name="groups" eval="[Command.link(ref('ashtar_group_city_manager'))]"/>
+        <field name="domain_force">[
+            '|', ('lead_id.city_manager_id', '=', user.id), ('create_uid', '=', user.id)
+        ]</field>
+    </record>
+    <record id="ashtar_group_sales_manager" model="res.groups">
+        <field name="name">Sales Manager</field>
+        <field name="category_id" ref="base.module_category_ashtar_sales"/>
+    </record>
+</odoo>

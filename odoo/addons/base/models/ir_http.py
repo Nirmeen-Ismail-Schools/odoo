@@ -263,6 +263,16 @@ class IrHttp(models.AbstractModel):
             'multi_lang': len(self.env['res.lang'].sudo().get_installed()) > 1,
         }
         return hashlib.sha1(json.dumps(translation_cache, sort_keys=True).encode()).hexdigest()
+        
+    @api.model
+    def get_frontend_session_info(self):
+     return {
+         "is_admin": self.env.user._is_admin(),
+         "is_system": self.env.user._is_system(),
+         "is_website_user": self.env.user._is_public(),
+         "user_id": self.env.user.id,
+         "is_frontend": True,
+     }
 
     @classmethod
     def _is_allowed_cookie(cls, cookie_type):

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<odoo>
+<record id="ashtar_lead_action_comment_view_tree" model="ir.ui.view">
+    <field name="name">ashtar.lead.action.comment.tree</field>
+    <field name="model">ashtar.lead.action.comment</field>
+    <field name="arch" type="xml">
+        <tree string="Channel">
+            <field name="comment"/>
+            <field name="create_uid"/>
+        </tree>
+    </field>
+</record>
+
+
+</odoo>

@@ -1,0 +1,152 @@
+<?xml version="1.0"?>
+<odoo>
+<record id="ashtar_lead_action" model="ir.actions.act_window">
+    <field name="name">All Leads</field>
+    <field name="res_model">ashtar.lead</field>
+    <field name="view_mode">tree,form</field>
+    <field name="context"> {'search_default_group_by_write_date': 1}</field>
+</record>
+<record id="ashtar_hot_lead_action" model="ir.actions.act_window">
+    <field name="name">Hot Leads</field>
+    <field name="res_model">ashtar.lead</field>
+    <field name="view_mode">tree,form</field>
+    <field name="context"> {'search_default_filter_by_hot_leads': 1}</field>
+</record>
+<record id="ashtar_warm_lead_action" model="ir.actions.act_window">
+    <field name="name">Warm Leads</field>
+    <field name="res_model">ashtar.lead</field>
+    <field name="view_mode">tree,form</field>
+    <field name="context"> {'search_default_filter_by_warm_leads': 1}</field>
+</record>
+<record id="ashtar_cold_lead_action" model="ir.actions.act_window">
+    <field name="name">Cold Leads</field>
+    <field name="res_model">ashtar.lead</field>
+    <field name="view_mode">tree,form</field>
+    <field name="context"> {'search_default_filter_by_cold_leads': 1}</field>
+</record>
+
+<record id="ashtar_lead_view_tree" model="ir.ui.view">
+    <field name="name">ashtar.lead.tree</field>
+    <field name="model">ashtar.lead</field>
+    <field name="arch" type="xml">
+        <tree string="Channel">
+        <!-- make a field for picture with smalled size possible -->
+            <field name="name"/>
+            <field name="email"/>
+            <field name="phone"/>
+            <field name="status" decoration-success="status == 'new'" decoration-muted="status == 'won'"
+                decoration-bf="status != False" 
+                decoration-warning="status == 'junk'" decoration-danger="status == 'lost' or status == 'lost_to_competition'" />
+            <field name="next_call_at"/>
+            <field name="lead_owner"/>
+            <field name="write_date"/>
+            <field name="create_uid"/>
+            <field name="channel"/>
+        </tree>
+    </field>
+</record>
+
+<record id="ashtar_lead_view_form" model="ir.ui.view">
+    <field name="name">ashtar.lead.form</field>
+    <field name="model">ashtar.lead</field>
+    <field name="arch" type="xml">
+        <form string="Lost Reason">
+            <sheet>
+                <group>
+                    <div class="oe_title">
+                        <field name="picture" widget="image" class="oe_avatar oe_left oe_top"/>
+                        <h1 class="mb32">
+                            <field name="name" class="mb16"/>
+                        </h1>
+                    </div>
+                    <br/>
+                    <group>
+                        <field name="email"/>
+                    </group>
+                    <group>
+                        <field name="phone"/>
+                    </group>
+                    <group>
+                        <field name="status"/>
+                    </group>
+                    <group>
+                        <field name="lead_owner"/>
+                    </group>
+                    <group>
+                        <field name="channel"/>
+                    </group>
+                    <group>
+                        <field name="city"/>
+                    </group>
+                    <group>
+                        <field name="city_manager_id"/>
+                    </group>
+                    <group>
+                        <field name="create_uid"/>
+                    </group>
+                    <group>
+                        <field name="active"/>
+                    </group>
+                </group>
+                    <notebook>
+                        <page string="Actions">
+                            <field name="actions"/>
+                        </page>
+                        <page string="Subjects">
+                            <field name="subjects"/>
+                        </page>
+                        <page string="Levels">
+                            <field name="levels"/>
+                        </page>
+                        <page string="About">
+                            <group>
+                                <field name="facebook_page"/>
+                            </group>
+                            <group>
+                                <field name="num_of_students"/>
+                            </group>
+                            <group>
+                                <field name="notes"/>
+                            </group>
+                        </page>
+                    </notebook>
+            </sheet>
+        </form>
+    </field>
+</record>
+
+
+<record id="estate_property_view_search" model="ir.ui.view">
+    <field name="name">ashtar.lead.form</field>
+    <field name="model">ashtar.lead</field>
+    <field name="arch" type="xml">
+        <search string="Delivery Carrier">
+            <field name="name" string="Name" />
+            <field name="email" string="Email" />
+            <field name="phone" string="Phone" />
+            <field name="status" string="Status"/>
+            <field name="lead_owner" string="Lead Owner" />
+            <field name="city" string="City" />
+            <field name="last_followup_date" string="Last Followup" />
+            <field name="write_date" string="Next Call Date" />
+            <field name="active" string="Active" />
+            <separator/>
+            <!-- <filter string="Available" name="inactive" domain="['|', ('state', '=', 'new'), ('state', '=', 'offer_recieved')]"/> -->
+            <!-- make a filter that gets all leads which has assignee and write_date greater than one month before now -->
+            <filter string="Hot Leads" name="filter_by_hot_leads" domain="['&amp;', ('status', '=', 'new'), '&amp;', ('lead_owner', '!=', False), ('write_date', '&gt;', (datetime.date.today()-datetime.timedelta(days=7)).strftime('%%Y-%%m-%%d 00:00:00'))]" />
+            <filter string="Warm Leads" name="filter_by_warm_leads" domain="['&amp;', ('status', '=', 'new'), ('lead_owner', '=', False)]" />
+            <filter string="Cold Leads" name="filter_by_cold_leads" domain="['&amp;', ('lead_owner', '!=', False), '&amp;', ('status', '=', 'new'), ('write_date', '&lt;', (datetime.date.today()-datetime.timedelta(days=30)).strftime('%%Y-%%m-%%d 00:00:00'))]" />
+            <group expand="1" string="Group By">
+                <filter string="Status" name="status" context="{'group_by':'status', 'residual_visible':True}"/>
+            </group>
+            <group expand="1" string="Group By">
+                <filter string="Last Followup Date" name="group_by_last_followup_date" context="{'group_by':'last_followup_date', 'residual_visible':True}"/>
+            </group>
+            <group expand="1" string="Group By">
+                <filter string="Updated At" name="group_by_write_date" context="{'group_by':'write_date:month', 'residual_visible':True}"/>
+            </group>
+        </search>
+    </field>
+</record>
+
+</odoo>

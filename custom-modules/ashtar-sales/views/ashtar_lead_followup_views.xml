@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<odoo>
+<record id="ashtar_lead_followup_view_tree" model="ir.ui.view">
+    <field name="name">ashtar.lead.followup.tree</field>
+    <field name="model">ashtar.lead.followup</field>
+    <field name="arch" type="xml">
+        <tree string="Channel">
+            <field name="status"/>
+            <field name="next_call_at"/>
+            <field name="notes"/>
+        </tree>
+    </field>
+</record>
+
+
+</odoo>

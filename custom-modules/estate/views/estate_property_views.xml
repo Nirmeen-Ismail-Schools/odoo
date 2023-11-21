@@ -1,0 +1,142 @@
+<?xml version="1.0"?>
+<odoo>
+<record id="estate_property_action" model="ir.actions.act_window">
+    <field name="name">Estate Property</field>
+    <field name="res_model">estate.property</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+<record id="estate_property_view_tree" model="ir.ui.view">
+    <field name="name">estate.property.tree</field>
+    <field name="model">estate.property</field>
+    <field name="arch" type="xml">
+        <tree string="Channel" decoration-success="state=='offer_accepted' or state=='offer_recieved'" decoration-muted="state=='sold'" decoration-bf="state=='offer_recieved'">
+            <field name="title"/>
+            <field name="postcode"/>
+            <field name="bedrooms"/>
+            <field name="living_area"/>
+            <field name="expected_price"/>
+            <field name="selling_price"/>
+            <field name="available_from" optional="hide"/>
+            <field name="property_type_id"/>
+            <field name="salesman"/>
+            <field name="buyer"/>
+            <field name="state"/>
+        </tree>
+    </field>
+</record>
+
+<record id="estate_property_view_form" model="ir.ui.view">
+    <field name="name">estate.property.form</field>
+    <field name="model">estate.property</field>
+    <field name="arch" type="xml">
+        <form string="Lost Reason">
+            <header>
+                <button name="action_sold" type="object" string="Sold" states="new,offer_received,offer_accepted"/>
+                <button name="action_cancel" type="object" string="Cancel" states="new,offer_received,offer_accepted"/>
+                <group>
+                    <field name="state" widget="statusbar"/>
+                </group>
+            </header>
+            <sheet>
+                <group>
+
+                    <div class="oe_title">
+                        <h1 class="mb32">
+                            <field name="title" class="mb16"/>
+                        </h1>
+                        <field name="active" invisible="1"/>
+                    </div>
+                    <br/>
+                    <group>
+                        <field name="tags" widget="many2many_tags" options="{'color_field': 'color', 'no_edit_color': True}"/>
+                    </group>
+                    <group>
+                        <field name="property_type_id" options="{'no_create': True, 'no_edit': True}"/>
+                    </group>
+                    <group>
+                        <field name="postcode"/>
+                    </group>
+                    <group>
+                        <field name="expected_price"/>
+                    </group>
+                    <group>
+                        <field name="available_from"/>
+                    </group>
+                    <group>
+                        <field name="selling_price"/>
+                    </group>
+                    <group>
+                        <field name="best_offer"/>
+                    </group>
+                    <notebook>
+                        <page string="Description">
+                            <group>
+                                <field name="description"/>
+                            </group>
+                            <group>
+                                <field name="bedrooms"/>
+                            </group>
+                            <group>
+                                <field name="living_area"/>
+                            </group>
+                            <group>
+                                <field name="facades"/>
+                            </group>
+                            <group>
+                                <field name="garage"/>
+                            </group>
+                            <group>
+                                <field name="garden"/>
+                            </group>
+                            <group>
+                                <field name="garden_area" attrs="{'invisible': [('garden', '=', False)]}"/>
+                            </group>
+                            <group>
+                                <field name="garden_orientation"/>
+                            </group>
+                            <group>
+                                <field name="total_area"/>
+                            </group>
+                        </page>
+                        <page string="Other Info">
+                            <group>
+                                <field name="salesman"/>
+                            </group>
+                            <group>
+                                <field name="buyer"/>
+                            </group>
+                        </page>
+                        <page string="Offers">
+                            <field name="offer_ids" attrs="{'readonly': ['|', ('state', '=', 'offer_accepted'), '|', ('state', '=', 'sold'), ('state', '=', 'canceled')]}"/>
+                        </page>
+                    </notebook>
+                </group>
+            </sheet>
+        </form>
+    </field>
+</record>
+
+<record id="estate_property_view_search" model="ir.ui.view">
+    <field name="name">estate.property.form</field>
+    <field name="model">estate.property</field>
+    <field name="arch" type="xml">
+        <search string="Delivery Carrier">
+            <field name="title" string="Title" />
+            <field name="postcode" string="Postcode" />
+            <field name="expected_price" string="Expected_price" />
+            <field name="bedrooms" string="Bedrooms" />
+            <field name="living_area" string="Living_area" filter_domain="[('living_area', '&gt;=', self)]"/>
+            <field name="facades" string="Facades" />
+            <separator/>
+            <filter string="Available" name="inactive" domain="['|', ('state', '=', 'new'), ('state', '=', 'offer_recieved')]"/>
+            <group expand="1" string="Group By">
+                <filter string="Postcode" name="postcode" context="{'group_by':'postcode', 'residual_visible':True}"/>
+            </group>
+            <group expand="1" string="Group By">
+                <filter string="Type" name="property_type_id" context="{'group_by':'property_type_id', 'residual_visible':True}"/>
+            </group>
+        </search>
+    </field>
+</record>
+</odoo>
