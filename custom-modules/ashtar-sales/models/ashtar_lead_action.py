@@ -4,7 +4,7 @@ from dateutil.relativedelta import relativedelta
 class ActionLead(models.Model):
     _name = "ashtar.lead.action"
     _description = "Lead action"
-    _order = "status desc, duedate asc"
+    _order = "id desc"
 
     lead_id = fields.Many2one("ashtar.lead", string="Lead")
     # make a field action_type with selection: meeting, call, whatsapp, mail, other and default value = call
@@ -19,25 +19,33 @@ class ActionLead(models.Model):
     status = fields.Selection(
         string="Status",
         selection=[("new", "New"), 
-            ("pending", "Pending"),
+            ("in_progress", "In Progress"),
             ("done", "Done")],
         default="new",
         copy=False,
+        compute="_compute_status",
+        store=True,
     )
     result = fields.Selection(
         string="Result",
-        selection=[("no_answer", "No Answer"), 
+        selection=[("no_answer", "No Answer"),
             ("meeting_scheduled", "Meeting Scheduled"), 
             ("not_interrested", "Not Interrested"), 
             ("signed", "Signed"),
             ("canceled", "Canceled")],
-        default="no_answer",
-        required=True,
+        default=False,
         copy=False,
     )
     # make a field comments one to many relation to ashtar.lead.action.comment
     comments = fields.One2many("ashtar.lead.action.comment", "action_id", string="Comments")
     name = fields.Char(required=True)
+    is_current = fields.Boolean(default=True)
+
+    @api.model
+    def create(self, vals):
+        if len(self.lead_id.actions) > 0:
+            self.lead_id.actions[0].is_current = False
+        return super().create(vals)
 
     def _handle_automation(self, vals):
         res = super().create(vals)
@@ -56,3 +64,8 @@ class ActionLead(models.Model):
             if duedate:
                 self.actions = [duedate]
         return res
+
+    @api.depends("result")
+    def _compute_status(self):
+        for rec in self:
+            rec.status = "done" if rec.result else "new"

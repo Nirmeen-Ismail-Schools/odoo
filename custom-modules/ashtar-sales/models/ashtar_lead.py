@@ -11,10 +11,11 @@ class Lead(models.Model):
     active = fields.Boolean(default=True)
     state = fields.Selection(
         string="State",
-        selection=[("new", "New"), ("followup", "Follow up"), ("signed", "Signed"), ("canceled", "Canceled")],
+        selection=[("new", "New"), ("followup", "Follow up"), ('answered', 'Answered'), ('met', 'Met'), ("signed", "Signed"), ("canceled", "Canceled")],
         default="new",
         copy=False,
-        required=True
+        store=True,
+        compute="_compute_state"
     )
     status = fields.Selection(
         string="Status",
@@ -35,6 +36,7 @@ class Lead(models.Model):
     # make a field lead_actions with one to many relation to ashtar.lead.action
     #lead_actions = fields.One2many("ashtar.lead.action", "lead_id", string="Lead Actions")
     is_meeting_scheduled = fields.Boolean(default=False)
+    is_met = fields.Boolean(default=False, string="Met")
     last_followup_date = fields.Date(copy=False, default=fields.Date.today())
     followup_incremental = fields.Integer(default=1, copy=False)
     phone = fields.Char(required=True)
@@ -49,9 +51,20 @@ class Lead(models.Model):
     num_of_students = fields.Integer()
     facebook_page = fields.Char()
     notes = fields.Text()
+    contract_value = fields.Float(default=0.0, required=True)
+
+    # make a map between action result and lead state
+    _action_result_state_map = {
+        "no_answer": "followup",
+        "meeting_scheduled": "followup",
+        "not_interrested": "followup",
+        "signed": "signed",
+        "canceled": "canceled",
+    }
     
     def _compute_duedate(rec, changed_action):
         duedate = fields.Date.today()
+        actionType = "call"
         if changed_action.result == "no_answer" and rec.is_meeting_scheduled:
             # get today date and put into variable
             duedate = (rec.create_date if rec.create_date else fields.Date.today()) + relativedelta(days=1)
@@ -65,15 +78,27 @@ class Lead(models.Model):
             print("===================================== not_interrested")
             print(days)
             duedate = (rec.create_date if rec.create_date else fields.Date.today()) + relativedelta(days=days)
+        elif changed_action.result == "meeting_scheduled":
+            duedate = fields.Date.today() + relativedelta(days=2)
+            actionType = "meeting"
         else:
             duedate = False
         
-        return False if not duedate else (0, 0, {
-                    "action_type": "call",
+        return (0, 0, {
+                    "action_type": actionType,
                     "duedate": duedate,
                     "assignee": rec.lead_owner.id,
                     "name": "Call " + rec.name,
                 })
+
+    @api.depends("actions")
+    def _compute_state(self):
+        for rec in self:
+            if len(rec.actions) == 0: continue
+            print("Passed first filter")
+            if rec.actions[0].status == "new": continue
+            print("Passed second filter")
+            rec.state = rec._action_result_state_map[rec.actions[0].result]
 
     # make an on change function that adds new action assigned to the lead owner once owner is changed
     @api.onchange("lead_owner")
@@ -82,12 +107,31 @@ class Lead(models.Model):
         for rec in self:
             if rec.lead_owner:
                 # create new action assigned to the lead owner
-                rec.actions = [(0, 0, {
-                    "action_type": "call",
-                    "duedate": rec.next_call_at if rec.next_call_at else fields.Date.today() + relativedelta(days=7),
-                    "assignee": rec.lead_owner.id,
-                    "name": "Call " + rec.name,
-                })]
+                if len(rec.actions) > 0 and rec.actions[0].status == "new": 
+                    rec.actions[0].assignee = rec.lead_owner.id
+                else:
+                    rec.actions = [(0, 0, {
+                        "action_type": "call",
+                        "duedate": rec.next_call_at if rec.next_call_at else fields.Date.today() + relativedelta(days=2),
+                        "assignee": rec.lead_owner.id,
+                        "name": "Call " + rec.name,
+                    })]
 
 
-    
+    @api.onchange("actions")
+    def _onchange_actions(self):
+        print ("===================================== _onchange_actions")
+        for rec in self:
+            if len(rec.actions) == 0: continue
+            print("Passed first filter")
+            if rec.actions[0].status == "new": continue
+            print("Passed second filter")
+            if rec.actions[0].result:
+                print("Passed third filter")
+                if rec.is_meeting_scheduled and rec.actions[0].result != "no_answer":
+                    rec.is_met = True
+                    rec.is_meeting_scheduled = rec.actions[0].result == "meeting_scheduled"
+                if rec.actions[0].result == "meeting_scheduled":
+                    rec.is_meeting_scheduled = True
+                if rec.actions[0].result != "signed" and rec.actions[0].result != "canceled":
+                    rec.actions = [rec._compute_duedate(rec.actions[0])]
