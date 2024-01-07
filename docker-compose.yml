@@ -1,0 +1,32 @@
+version: '3'
+services:
+  odoo:
+    build: .
+    image: your-odoo-image:latest
+    ports:
+      - "8069:8069"
+    environment:
+      - POSTGRES_USER=odoo
+      - POSTGRES_PASSWORD=odoo
+      - POSTGRES_DB=odoo
+      - PGHOST=db
+      - PGUSER=odoo
+      - PGPASSWORD=odoo
+      - PGDATABASE=odoo
+    depends_on:
+      - db
+    networks:
+      - odoo_net
+
+  db:
+    image: postgres:12
+    environment:
+      - POSTGRES_USER=odoo
+      - POSTGRES_PASSWORD=odoo
+      - POSTGRES_DB=odoo
+    networks:
+      - odoo_net
+
+networks:
+  odoo_net:
+
