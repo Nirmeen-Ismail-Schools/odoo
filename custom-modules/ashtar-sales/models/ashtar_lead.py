@@ -124,14 +124,19 @@ class Lead(models.Model):
         for rec in self:
             if len(rec.actions) == 0: continue
             print("Passed first filter")
-            if rec.actions[0].status == "new": continue
+            if rec.actions[len(rec.actions)-1].create_date == False: 
+                actionToFollow = rec.actions[len(rec.actions)-1]
+            else:
+                actionToFollow = rec.actions[0]
+            print(actionToFollow.create_date)
+            if actionToFollow.status == "new": continue
             print("Passed second filter")
-            if rec.actions[0].result:
+            if actionToFollow.result:
                 print("Passed third filter")
-                if rec.is_meeting_scheduled and rec.actions[0].result != "no_answer":
+                if rec.is_meeting_scheduled and actionToFollow.result != "no_answer":
                     rec.is_met = True
-                    rec.is_meeting_scheduled = rec.actions[0].result == "meeting_scheduled"
-                if rec.actions[0].result == "meeting_scheduled":
+                    rec.is_meeting_scheduled = actionToFollow.result == "meeting_scheduled"
+                if actionToFollow.result == "meeting_scheduled":
                     rec.is_meeting_scheduled = True
-                if rec.actions[0].result != "signed" and rec.actions[0].result != "canceled":
-                    rec.actions = [rec._compute_duedate(rec.actions[0])]
+                if actionToFollow.result != "signed" and actionToFollow.result != "canceled":
+                    rec.actions = [rec._compute_duedate(actionToFollow)]
