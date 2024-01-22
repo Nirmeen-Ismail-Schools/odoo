@@ -39,7 +39,7 @@ class Lead(models.Model):
     is_met = fields.Boolean(default=False, string="Met")
     last_followup_date = fields.Date(copy=False, default=fields.Date.today())
     followup_incremental = fields.Integer(default=1, copy=False)
-    phone = fields.Char(required=True)
+    phone = fields.Char()
     email = fields.Char()
     lead_owner = fields.Many2one("res.users", string="Lead Owner", copy=False)
     followup_history = fields.One2many("ashtar.lead.followup", "lead_id", string="Follow up history")
