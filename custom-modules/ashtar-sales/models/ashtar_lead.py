@@ -66,7 +66,7 @@ class Lead(models.Model):
 
     def _compute_whats(self):
         for rec in self:
-            rec.whatsapp = "wa.me/" + rec.phone
+            rec.whatsapp = "wa.me/" + rec.phone if rec.phone else ""
 
     def _get_first_subject(self):
         for rec in self:
