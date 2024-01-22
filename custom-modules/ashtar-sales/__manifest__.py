@@ -8,7 +8,7 @@
         'security/security.xml',
         'security/ir.model.access.csv',
         'views/ashtar_lead_subject_views.xml',
-        'views/ashtar_lead_level_views.xml',
+        'views/ashtar_lead_stage_views.xml',
         'views/ashtar_city_views.xml',
         'views/ashtar_lead_action_comment_views.xml',
         'views/ashtar_lead_actions_views.xml',

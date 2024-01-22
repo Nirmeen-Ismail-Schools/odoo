@@ -31,16 +31,20 @@
     <field name="arch" type="xml">
         <tree string="Channel">
         <!-- make a field for picture with smalled size possible -->
+            <field name="create_date"/>
+            <field name="city" />
+            <field name="num_of_students" />
             <field name="name"/>
-            <field name="email"/>
+            <field name="subject" />
+            <field name="edu_stage" />
             <field name="phone"/>
+            <field name="whatsapp" />
+            <field name="lead_owner"/>
             <field name="status" decoration-success="status == 'new'" decoration-muted="status == 'won'"
                 decoration-bf="status != False" 
                 decoration-warning="status == 'junk'" decoration-danger="status == 'lost' or status == 'lost_to_competition'" />
             <field name="next_call_at"/>
-            <field name="lead_owner"/>
             <field name="write_date"/>
-            <field name="create_uid"/>
             <field name="channel"/>
         </tree>
     </field>
@@ -52,9 +56,14 @@
     <field name="arch" type="xml">
         <tree string="Channel">
         <!-- make a field for picture with smalled size possible -->
+            <field name="create_date"/>
+            <field name="city" />
+            <field name="num_of_students" />
             <field name="name"/>
-            <field name="email"/>
+            <field name="subject" />
+            <field name="edu_stage" />
             <field name="phone"/>
+            <field name="whatsapp" />
             <field name="status" decoration-success="status == 'new'" decoration-muted="status == 'won'"
                 decoration-bf="status != False" 
                 decoration-warning="status == 'junk'" decoration-danger="status == 'lost' or status == 'lost_to_competition'" />
@@ -128,8 +137,8 @@
                         <page string="Subjects">
                             <field name="subjects"/>
                         </page>
-                        <page string="Levels">
-                            <field name="levels"/>
+                        <page string="Stage">
+                            <field name="edu_stage"/>
                         </page>
                         <page string="About">
                             <group>
@@ -156,6 +165,7 @@
         <search string="Delivery Carrier">
             <field name="name" string="Name" />
             <field name="email" string="Email" />
+            <field name="name" string="Teacher Name" />
             <field name="phone" string="Phone" />
             <field name="status" string="Status"/>
             <field name="lead_owner" string="Lead Owner" />

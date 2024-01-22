@@ -4,7 +4,7 @@ access_lead_followup,ashtar.lead.followup,model_ashtar_lead_followup,base.group_
 access_lead_action,ashtar.lead.action,model_ashtar_lead_action,base.group_user,1,1,1,1
 access_lead_action_comment,ashtar.lead.action_comment,model_ashtar_lead_action_comment,base.group_user,1,1,1,1
 access_city,ashtar.city,model_ashtar_city,base.group_user,1,1,1,1
-access_lead_level,ashtar.lead.level,model_ashtar_lead_level,base.group_user,1,1,1,1
+access_lead_level,ashtar.lead.level,model_ashtar_lead_stage,base.group_user,1,1,1,1
 access_lead_subject,ashtar.lead.subject,model_ashtar_lead_subject,base.group_user,1,1,1,1
 
 access_ashtar_sales_manager_lead,ashtar.lead,model_ashtar_lead,ashtar_group_sales_manager,1,1,0,0
@@ -12,7 +12,7 @@ access_sales_manager_lead_followup,ashtar.lead.followup,model_ashtar_lead_follow
 access_sales_manager_lead_action,ashtar.lead.action,model_ashtar_lead_action,ashtar_group_sales_manager,1,1,1,1
 access_sales_manager_lead_action_comment,ashtar.lead.action_comment,model_ashtar_lead_action_comment,ashtar_group_sales_manager,1,1,1,1
 access_sales_manager_city,ashtar.city,model_ashtar_city,ashtar_group_sales_manager,1,1,1,1
-access_sales_manager_lead_level,ashtar.lead.level,model_ashtar_lead_level,ashtar_group_sales_manager,1,1,1,1
+access_sales_manager_lead_level,ashtar.lead.level,model_ashtar_lead_stage,ashtar_group_sales_manager,1,1,1,1
 access_sales_manager_lead_subject,ashtar.lead.subject,model_ashtar_lead_subject,ashtar_group_sales_manager,1,1,1,1
 
 access_city_manager_ashtar_lead,ashtar.lead,model_ashtar_lead,ashtar_group_city_manager,1,1,1,1
@@ -20,7 +20,7 @@ access_city_manager_lead_followup,ashtar.lead.followup,model_ashtar_lead_followu
 access_city_manager_lead_action,ashtar.lead.action,model_ashtar_lead_action,ashtar_group_city_manager,1,1,1,1
 access_city_manager_lead_action_comment,ashtar.lead.action_comment,model_ashtar_lead_action_comment,ashtar_group_city_manager,1,1,1,1
 access_city_manager_city,ashtar.city,model_ashtar_city,ashtar_group_city_manager,1,1,1,1
-access_city_manager_lead_level,ashtar.lead.level,model_ashtar_lead_level,ashtar_group_city_manager,1,1,0,0
+access_city_manager_lead_level,ashtar.lead.level,model_ashtar_lead_stage,ashtar_group_city_manager,1,1,0,0
 access_city_manager_lead_subject,ashtar.lead.subject,model_ashtar_lead_subject,ashtar_group_city_manager,1,1,1,1
 
 access_salesman_ashtar_lead,ashtar.lead,model_ashtar_lead,ashtar_group_salesman,1,0,0,0
@@ -28,5 +28,5 @@ access_salesman_lead_followup,ashtar.lead.followup,model_ashtar_lead_followup,as
 access_salesman_lead_action,ashtar.lead.action,model_ashtar_lead_action,ashtar_group_salesman,1,1,1,1
 access_salesman_lead_action_comment,ashtar.lead.action_comment,model_ashtar_lead_action_comment,ashtar_group_salesman,1,1,1,1
 access_salesman_city,ashtar.city,model_ashtar_city,ashtar_group_salesman,1,0,0,0
-access_salesman_lead_level,ashtar.lead.level,model_ashtar_lead_level,ashtar_group_salesman,1,0,0,0
+access_salesman_lead_level,ashtar.lead.level,model_ashtar_lead_stage,ashtar_group_salesman,1,0,0,0
 access_salesman_lead_subject,ashtar.lead.subject,model_ashtar_lead_subject,ashtar_group_salesman,1,0,0,0

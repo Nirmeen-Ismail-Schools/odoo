@@ -47,11 +47,13 @@ class Lead(models.Model):
     next_call_at = fields.Date()
     actions = fields.One2many("ashtar.lead.action", "lead_id", string="Actions")
     subjects = fields.Many2many("ashtar.lead.subject", string="Subjects")
-    levels = fields.Many2many("ashtar.lead.level", string="Levels")
-    num_of_students = fields.Integer()
+    subject = fields.Char(store=False, compute="_get_first_subject")
+    edu_stage = fields.Many2one("ashtar.lead.stage", string="Educational Stage")
+    num_of_students = fields.Char()
     facebook_page = fields.Char()
     notes = fields.Text()
     contract_value = fields.Float(default=0.0, required=True)
+    whatsapp = fields.Char(store=False, compute="_compute_whats")
 
     # make a map between action result and lead state
     _action_result_state_map = {
@@ -61,6 +63,14 @@ class Lead(models.Model):
         "signed": "signed",
         "canceled": "canceled",
     }
+
+    def _compute_whats(self):
+        for rec in self:
+            rec.whatsapp = "wa.me/" + rec.phone
+
+    def _get_first_subject(self):
+        for rec in self:
+            rec.subject = rec.subjects[0] if len(rec.subjects) > 0 else ""
     
     def _compute_duedate(rec, changed_action):
         duedate = fields.Date.today()
