@@ -40,6 +40,7 @@
             <field name="phone"/>
             <field name="whatsapp" />
             <field name="lead_owner"/>
+            <field name="lead_referrer"/>
             <field name="status" decoration-success="status == 'new'" decoration-muted="status == 'won'"
                 decoration-bf="status != False" 
                 decoration-warning="status == 'junk'" decoration-danger="status == 'lost' or status == 'lost_to_competition'" />
@@ -69,6 +70,7 @@
                 decoration-warning="status == 'junk'" decoration-danger="status == 'lost' or status == 'lost_to_competition'" />
             <field name="next_call_at"/>
             <field name="lead_owner"/>
+            <field name="lead_referrer"/>
             <field name="write_date"/>
             <field name="create_uid"/>
             <field name="channel"/>
@@ -104,6 +106,9 @@
                     </group>
                     <group>
                         <field name="lead_owner"/>
+                    </group>
+                    <group>
+                        <field name="lead_referrer"/>
                     </group>
                     <group>
                         <field name="channel"/>
@@ -169,6 +174,7 @@
             <field name="phone" string="Phone" />
             <field name="status" string="Status"/>
             <field name="lead_owner" string="Lead Owner" />
+            <field name="lead_referrer" string="Lead Referrer" />
             <field name="city" string="City" />
             <field name="last_followup_date" string="Last Followup" />
             <field name="write_date" string="Next Call Date" />

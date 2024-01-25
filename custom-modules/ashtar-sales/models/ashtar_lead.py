@@ -42,6 +42,7 @@ class Lead(models.Model):
     phone = fields.Char()
     email = fields.Char()
     lead_owner = fields.Many2one("res.users", string="Lead Owner", copy=False)
+    lead_referrer = fields.Many2one("res.users", string="Lead Referrer", copy=False)
     followup_history = fields.One2many("ashtar.lead.followup", "lead_id", string="Follow up history")
     # add next_call_at field with default value = today + 7 days
     next_call_at = fields.Date()
