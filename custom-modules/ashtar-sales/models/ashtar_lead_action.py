@@ -29,7 +29,7 @@ class ActionLead(models.Model):
     result = fields.Selection(
         string="Result",
         selection=[("no_answer", "No Answer"),
-            ("interrested", "interested"), 
+            ("interrested", "Interested"), 
             ("not_interrested", "Not interested"), 
             ("follow_up", "Follow up"), 
             ("meeting", "Meeting"), 
