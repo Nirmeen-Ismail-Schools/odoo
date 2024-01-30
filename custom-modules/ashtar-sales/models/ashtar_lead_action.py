@@ -29,8 +29,10 @@ class ActionLead(models.Model):
     result = fields.Selection(
         string="Result",
         selection=[("no_answer", "No Answer"),
-            ("meeting_scheduled", "Meeting Scheduled"), 
-            ("not_interrested", "Not Interrested"), 
+            ("interrested", "interested"), 
+            ("not_interrested", "Not interested"), 
+            ("follow_up", "Follow up"), 
+            ("meeting", "Meeting"), 
             ("signed", "Signed"),
             ("canceled", "Canceled")],
         default=False,
