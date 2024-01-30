@@ -31,7 +31,6 @@
     <field name="arch" type="xml">
         <tree string="Channel">
         <!-- make a field for picture with smalled size possible -->
-            <field name="create_date"/>
             <field name="city" />
             <field name="num_of_students" />
             <field name="name"/>
@@ -44,9 +43,6 @@
             <field name="status" decoration-success="status == 'new'" decoration-muted="status == 'won'"
                 decoration-bf="status != False" 
                 decoration-warning="status == 'junk'" decoration-danger="status == 'lost' or status == 'lost_to_competition'" />
-            <field name="next_call_at"/>
-            <field name="write_date"/>
-            <field name="channel"/>
         </tree>
     </field>
 </record>
@@ -57,7 +53,6 @@
     <field name="arch" type="xml">
         <tree string="Channel">
         <!-- make a field for picture with smalled size possible -->
-            <field name="create_date"/>
             <field name="city" />
             <field name="num_of_students" />
             <field name="name"/>
@@ -68,12 +63,8 @@
             <field name="status" decoration-success="status == 'new'" decoration-muted="status == 'won'"
                 decoration-bf="status != False" 
                 decoration-warning="status == 'junk'" decoration-danger="status == 'lost' or status == 'lost_to_competition'" />
-            <field name="next_call_at"/>
             <field name="lead_owner"/>
             <field name="lead_referrer"/>
-            <field name="write_date"/>
-            <field name="create_uid"/>
-            <field name="channel"/>
         </tree>
     </field>
 </record>
@@ -134,6 +125,18 @@
                     <group>
                         <field name="is_met" attrs="{'invisible':True}"/>
                     </group>
+                    <group>
+                        <field name="edu_stage"/>
+                    </group>
+                    <group>
+                        <field name="facebook_page"/>
+                    </group>
+                    <group>
+                        <field name="num_of_students"/>
+                    </group>
+                    <group>
+                        <field name="notes"/>
+                    </group>
                 </group>
                     <notebook>
                         <page string="Actions">
@@ -141,20 +144,6 @@
                         </page>
                         <page string="Subjects">
                             <field name="subjects"/>
-                        </page>
-                        <page string="Stage">
-                            <field name="edu_stage"/>
-                        </page>
-                        <page string="About">
-                            <group>
-                                <field name="facebook_page"/>
-                            </group>
-                            <group>
-                                <field name="num_of_students"/>
-                            </group>
-                            <group>
-                                <field name="notes"/>
-                            </group>
                         </page>
                     </notebook>
             </sheet>

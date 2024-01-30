@@ -29,7 +29,7 @@
     <field name="name">ashtar.lead.action.tree</field>
     <field name="model">ashtar.lead.action</field>
     <field name="arch" type="xml">
-        <tree string="Channel" create="false" decoration-danger="status == 'new'">
+        <tree string="Channel" decoration-danger="status == 'new'">
             <field name="name"/>
             <field name="status" decoration-success="status == 'new'" decoration-warning="status == 'pending'" 
             decoration-muted="status == 'done'" decoration-bf="status != False"/>
@@ -45,7 +45,7 @@
     <field name="name">ashtar.lead.action.graph</field>
     <field name="model">ashtar.lead.action</field>
     <field name="arch" type="xml">
-        <tree string="Channel" create="false" delete="false">
+        <tree string="Channel">
             <field name="name"/>
             <field name="status" decoration-success="status == 'new'" decoration-warning="status == 'pending'" 
                 decoration-muted="status == 'done'" decoration-bf="status != False"/>
@@ -79,7 +79,7 @@
     <field name="name">ashtar.lead.action.form</field>
     <field name="model">ashtar.lead.action</field>
     <field name="arch" type="xml">
-        <form string="Lost Reason" create="false" delete="false">
+        <form string="Lost Reason">
             <sheet>
                 <group>
                     <div class="oe_title">

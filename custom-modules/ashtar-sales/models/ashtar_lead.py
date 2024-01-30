@@ -50,11 +50,22 @@ class Lead(models.Model):
     subjects = fields.Many2many("ashtar.lead.subject", string="Subjects")
     subject = fields.Char(store=False, compute="_get_first_subject")
     edu_stage = fields.Many2one("ashtar.lead.stage", string="Educational Stage")
-    num_of_students = fields.Char()
+    num_of_students = fields.Selection(
+        string="Number Of Students",
+        selection=[("<50", "<50"), 
+            ("50-100", "50-100"),
+            ("101-200", "101-200"),
+            ("201-300", "201-300"),
+            ("301-500", "301-500"),
+            ("500-1000", "500-1000"),
+            ("1000+", "1000+")],
+        store=True,
+    )
     facebook_page = fields.Char()
     notes = fields.Text()
     contract_value = fields.Float(default=0.0, required=True)
     whatsapp = fields.Char(store=False, compute="_compute_whats")
+    assignee = fields.Many2one("res.users", string="Assignee", default=lambda self: self.env.user)
 
     # make a map between action result and lead state
     _action_result_state_map = {
@@ -71,7 +82,7 @@ class Lead(models.Model):
 
     def _get_first_subject(self):
         for rec in self:
-            rec.subject = rec.subjects[0] if len(rec.subjects) > 0 else ""
+            rec.subject = rec.subjects[0].name if len(rec.subjects) > 0 else ""
     
     def _compute_duedate(rec, changed_action):
         duedate = fields.Date.today()
@@ -129,7 +140,7 @@ class Lead(models.Model):
                     })]
 
 
-    @api.onchange("actions")
+    """@api.onchange("actions")
     def _onchange_actions(self):
         print ("===================================== _onchange_actions")
         for rec in self:
@@ -151,3 +162,4 @@ class Lead(models.Model):
                     rec.is_meeting_scheduled = True
                 if actionToFollow.result != "signed" and actionToFollow.result != "canceled":
                     rec.actions = [rec._compute_duedate(actionToFollow)]
+    """
